@@ -11,15 +11,12 @@ public class WarrantyItem {
 
     public String productName;
 
-    // Store date as timestamp (better than String)
     public long purchaseDate;
 
     public int warrantyMonths;
 
-    // Calculated expiry date
     public long expiryDate;
 
-    // Path of receipt image
     public String imageUri;
 
     public String notes;
@@ -39,6 +36,49 @@ public class WarrantyItem {
         this.notes = notes;
     }
 }
+
+
+// package com.example.warrantyvault.model;
+
+// import androidx.room.Entity;
+// import androidx.room.PrimaryKey;
+
+// @Entity(tableName = "warranty_items")
+// public class WarrantyItem {
+
+//     @PrimaryKey(autoGenerate = true)
+//     public int id;
+
+//     public String productName;
+
+//     // Store date as timestamp (better than String)
+//     public long purchaseDate;
+
+//     public int warrantyMonths;
+
+//     // Calculated expiry date
+//     public long expiryDate;
+
+//     // Path of receipt image
+//     public String imageUri;
+
+//     public String notes;
+
+//     public WarrantyItem(String productName,
+//                         long purchaseDate,
+//                         int warrantyMonths,
+//                         long expiryDate,
+//                         String imageUri,
+//                         String notes) {
+
+//         this.productName = productName;
+//         this.purchaseDate = purchaseDate;
+//         this.warrantyMonths = warrantyMonths;
+//         this.expiryDate = expiryDate;
+//         this.imageUri = imageUri;
+//         this.notes = notes;
+//     }
+// }
 
 
 // package com.example.warrantyvault.model;
