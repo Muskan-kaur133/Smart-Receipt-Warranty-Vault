@@ -1,18 +1,23 @@
 package com.example.warrantyvault;
 
 import android.os.Bundle;
+import android.content.Intent;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.example.warrantyvault.database.WarrantyDao;
-import com.example.warrantyvault.database.WarrantyDatabase;
-import com.example.warrantyvault.model.WarrantyItem;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
+
+    private WarrantyViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,19 +25,34 @@ public class MainActivity extends AppCompatActivity {
 
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // DATABASE TEST
-        WarrantyDatabase db = WarrantyDatabase.getInstance(this);
-        WarrantyDao dao = db.warrantyDao();
+        WarrantyAdapter adapter = new WarrantyAdapter();
+        recyclerView.setAdapter(adapter);
 
-        WarrantyItem item = new WarrantyItem(
-                "Earphones",
-                "2026-02-09",
-                12
-        );
+        viewModel = new ViewModelProvider(this).get(WarrantyViewModel.class);
 
-        dao.insert(item);
+        viewModel.getAllItems().observe(this, items -> {
+            adapter.setWarrantyList(items);
+        });
 
+        // Initialize ViewModel
+        viewModel = new ViewModelProvider(this).get(WarrantyViewModel.class);
+
+        // Observe database
+        viewModel.getAllItems().observe(this, items -> {
+            System.out.println("Total Items: " + items.size());
+        });
+
+        // Floating Button
+        FloatingActionButton fab = findViewById(R.id.fabAdd);
+        fab.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AddWarrantyActivity.class);
+            startActivity(intent);
+        });
+
+        // Insets (safe area handling)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -40,3 +60,54 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 }
+
+
+
+//package com.example.warrantyvault;
+//
+//import android.os.Bundle;
+//
+//import androidx.activity.EdgeToEdge;
+//import androidx.appcompat.app.AppCompatActivity;
+//import androidx.core.graphics.Insets;
+//import androidx.core.view.ViewCompat;
+//import androidx.core.view.WindowInsetsCompat;
+//
+//import com.example.warrantyvault.database.WarrantyDao;
+//import com.example.warrantyvault.database.WarrantyDatabase;
+//import com.example.warrantyvault.model.WarrantyItem;
+//
+//public class MainActivity extends AppCompatActivity {
+//
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//
+//        EdgeToEdge.enable(this);
+//        setContentView(R.layout.activity_main);
+//
+//        // DATABASE TEST
+//        WarrantyDatabase db = WarrantyDatabase.getInstance(this);
+//        WarrantyDao dao = db.warrantyDao();
+//
+//        long purchaseDate = System.currentTimeMillis();
+//        long expiryDate = purchaseDate + (12L * 30 * 24 * 60 * 60 * 1000);
+//
+//        WarrantyItem item = new WarrantyItem(
+//                "Earphones",
+//                purchaseDate,
+//                12,
+//                expiryDate,
+//                "",
+//                ""
+//        );
+//
+//        dao.insert(item);
+//
+//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+//            return insets;
+//        });
+//    }
+//}

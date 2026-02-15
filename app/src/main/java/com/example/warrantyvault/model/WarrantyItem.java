@@ -34,6 +34,18 @@ public class WarrantyItem {
         this.expiryDate = expiryDate;
         this.imageUri = imageUri;
         this.notes = notes;
+
+    }
+    public String getProductName() {
+        return productName;
+    }
+
+    public int getWarrantyMonths() {
+        return warrantyMonths;
+    }
+
+    public long getExpiryDate() {
+        return expiryDate;
     }
 }
 
