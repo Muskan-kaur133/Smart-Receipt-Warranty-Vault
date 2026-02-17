@@ -20,20 +20,19 @@ public class WarrantyItem {
     public String imageUri;
 
     public String notes;
+    private String imagePath;
 
     public WarrantyItem(String productName,
                         long purchaseDate,
                         int warrantyMonths,
                         long expiryDate,
-                        String imageUri,
-                        String notes) {
+                        String imagePath) {
 
         this.productName = productName;
         this.purchaseDate = purchaseDate;
         this.warrantyMonths = warrantyMonths;
         this.expiryDate = expiryDate;
-        this.imageUri = imageUri;
-        this.notes = notes;
+        this.imagePath = imagePath;
 
     }
     public String getProductName() {
@@ -46,6 +45,9 @@ public class WarrantyItem {
 
     public long getExpiryDate() {
         return expiryDate;
+    }
+    public String getImagePath() {
+        return imagePath;
     }
 }
 

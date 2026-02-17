@@ -18,6 +18,9 @@ import java.util.Locale;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.widget.ImageView;
 
 public class WarrantyAdapter extends RecyclerView.Adapter<WarrantyAdapter.ViewHolder> {
 
@@ -57,6 +60,10 @@ public class WarrantyAdapter extends RecyclerView.Adapter<WarrantyAdapter.ViewHo
             holder.tvStatus.setText("Expired");
             holder.tvStatus.setTextColor(android.graphics.Color.RED);
         }
+        if (item.getImagePath() != null && !item.getImagePath().isEmpty()) {
+            Bitmap bitmap = BitmapFactory.decodeFile(item.getImagePath());
+            holder.itemImage.setImageBitmap(bitmap);
+        }
     }
 
     @Override
@@ -67,12 +74,14 @@ public class WarrantyAdapter extends RecyclerView.Adapter<WarrantyAdapter.ViewHo
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvProductName, tvExpiry, tvStatus;
+        ImageView itemImage;
 
         ViewHolder(View itemView) {
             super(itemView);
             tvProductName = itemView.findViewById(R.id.tvProductName);
             tvExpiry = itemView.findViewById(R.id.tvExpiry);
             tvStatus = itemView.findViewById(R.id.tvStatus);
+            itemImage = itemView.findViewById(R.id.itemImage);
         }
     }
 }
