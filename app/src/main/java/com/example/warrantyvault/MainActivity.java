@@ -22,9 +22,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -37,31 +37,18 @@ public class MainActivity extends AppCompatActivity {
             adapter.setWarrantyList(items);
         });
 
-        // Initialize ViewModel
-        viewModel = new ViewModelProvider(this).get(WarrantyViewModel.class);
-
-        // Observe database
-        viewModel.getAllItems().observe(this, items -> {
-            System.out.println("Total Items: " + items.size());
-        });
-
-        // Floating Button
         FloatingActionButton fab = findViewById(R.id.fabAdd);
         fab.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AddWarrantyActivity.class);
             startActivity(intent);
         });
 
-        // Insets (safe area handling)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-    }
-}
-
-
+    }}
 
 //package com.example.warrantyvault;
 //

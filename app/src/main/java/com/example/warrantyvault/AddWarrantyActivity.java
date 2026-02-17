@@ -42,31 +42,16 @@ public class AddWarrantyActivity extends AppCompatActivity {
                 return;
             }
 
-            int value = Integer.parseInt(valueText);
+            int value;
+            try {
+                value = Integer.parseInt(valueText);
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Enter valid number", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             long purchaseDate = System.currentTimeMillis();
-            long expiryDate = 0;
-
-            String unit = spinner.getSelectedItem().toString();
-
-            if (unit.equals("Days")) {
-                expiryDate = purchaseDate + (value * 24L * 60 * 60 * 1000);
-            }
-            else if (unit.equals("Weeks")) {
-                expiryDate = purchaseDate + (value * 7L * 24 * 60 * 60 * 1000);
-            }
-            else if (unit.equals("Months")) {
-                expiryDate = purchaseDate + (value * 30L * 24 * 60 * 60 * 1000);
-            }
-
-
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                    this,
-                    android.R.layout.simple_spinner_item,
-                    new String[]{"Days", "Weeks", "Months"}
-            );
-
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinner.setAdapter(adapter);
+            long expiryDate = purchaseDate + (value * 30L * 24 * 60 * 60 * 1000);
 
             WarrantyItem item = new WarrantyItem(
                     productName,
@@ -80,7 +65,25 @@ public class AddWarrantyActivity extends AppCompatActivity {
             viewModel.insert(item);
 
             Toast.makeText(this, "Warranty Saved", Toast.LENGTH_SHORT).show();
+
             finish();
+
+
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                    this,
+                    android.R.layout.simple_spinner_item,
+                    new String[]{"Days", "Weeks", "Months"}
+            );
+
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+
+
+
+
+
+
         });
     }
 }
