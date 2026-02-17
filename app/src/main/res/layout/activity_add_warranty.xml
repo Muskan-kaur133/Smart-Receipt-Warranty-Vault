@@ -18,7 +18,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:entries="@array/warranty_units"/>
+        android:entries="@array/warranty_units" />
+    <EditText
+        android:id="@+id/etWarrantyMonths"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Warranty"
+        android:inputType="number" />
 
     <EditText
         android:id="@+id/etWarrantyMonths"
@@ -37,6 +43,6 @@
         android:id="@+id/btnSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save Warranty"/>
+        android:text="Save Warranty" />
 
 </LinearLayout>
