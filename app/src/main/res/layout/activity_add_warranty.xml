@@ -13,18 +13,25 @@
         android:layout_height="wrap_content"
         android:hint="Product Name"/>
 
-    <EditText
-        android:id="@+id/etWarrantyMonths"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Warranty"
-        android:inputType="number"/>
     <Spinner
         android:id="@+id/spinnerUnit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:entries="@array/warranty_units"/>
+
+    <EditText
+        android:id="@+id/etWarrantyMonths"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Warranty"
+        android:inputType="number"/>
+<!--    <Spinner-->
+<!--        android:id="@+id/spinnerUnit"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:entries="@array/warranty_units"/>-->
 
     <Button
         android:id="@+id/btnSave"
