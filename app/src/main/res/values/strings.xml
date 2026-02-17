@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">WarrantyVault</string>
+
+    <string-array name="warranty_units">
+        <item>Days</item>
+        <item>Weeks</item>
+        <item>Months</item>
+    </string-array>
 </resources>

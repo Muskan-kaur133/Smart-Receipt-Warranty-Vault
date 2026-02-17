@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-
+import java.util.Calendar;
 import com.example.warrantyvault.model.WarrantyItem;
 
 public class AddWarrantyActivity extends AppCompatActivity {
@@ -51,7 +51,22 @@ public class AddWarrantyActivity extends AppCompatActivity {
             }
 
             long purchaseDate = System.currentTimeMillis();
-            long expiryDate = purchaseDate + (value * 30L * 24 * 60 * 60 * 1000);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+
+            String unit = spinner.getSelectedItem().toString();
+
+            if (unit.equals("Days")) {
+                calendar.add(Calendar.DAY_OF_YEAR, value);
+            }
+            else if (unit.equals("Weeks")) {
+                calendar.add(Calendar.WEEK_OF_YEAR, value);
+            }
+            else if (unit.equals("Months")) {
+                calendar.add(Calendar.MONTH, value);
+            }
+
+            long expiryDate = calendar.getTimeInMillis();
 
             WarrantyItem item = new WarrantyItem(
                     productName,
