@@ -11,8 +11,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.lifecycle.ViewModelProvider;
 
+import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
 
         WarrantyAdapter adapter = new WarrantyAdapter();
         recyclerView.setAdapter(adapter);
+        adapter.setOnItemDeleteListener(item -> {
+            viewModel.delete(item);
+            Toast.makeText(this, "Deleted", Toast.LENGTH_SHORT).show();
+        });
 
         viewModel = new ViewModelProvider(this).get(WarrantyViewModel.class);
 

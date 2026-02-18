@@ -34,4 +34,9 @@ public class WarrantyViewModel extends AndroidViewModel {
             database.warrantyDao().insert(item);
         });
     }
+    public void delete(WarrantyItem item) {
+        executorService.execute(() ->
+                database.warrantyDao().delete(item)
+        );
+    }
 }
