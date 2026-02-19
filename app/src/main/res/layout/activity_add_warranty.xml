@@ -1,51 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/main"
+
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="20dp">
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/imagePreview"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:scaleType="centerCrop"
-        android:src="@android:drawable/ic_menu_camera"/>
-
-    <EditText
-        android:id="@+id/etProductName"
+    <LinearLayout
+        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Product Name"/>
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:layout_marginTop="20dp">
 
-    <Spinner
-        android:id="@+id/spinnerUnit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:entries="@array/warranty_units" />
-    <EditText
-        android:id="@+id/etWarrantyMonths"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Warranty"
-        android:inputType="number" />
+        <!-- Product Image -->
+        <ImageView
+            android:id="@+id/imagePreview"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="100dp"
+            android:scaleType="centerCrop"
+            android:src="@android:drawable/ic_menu_camera" />
 
-    <!--    <Spinner-->
+        <!-- Product Name -->
+        <EditText
+            android:id="@+id/etProductName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Product Name"
+            android:layout_marginTop="20dp"/>
+
+        <!-- Warranty Unit Spinner -->
+        <Spinner
+            android:id="@+id/spinnerUnit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:entries="@array/warranty_units" />
+
+        <!-- Warranty Duration -->
+        <EditText
+            android:id="@+id/etWarrantyMonths"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Warranty"
+            android:inputType="number"
+            android:layout_marginTop="12dp"/>
+
+        <!-- Save Button -->
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Warranty"
+            android:layout_marginTop="24dp"/>
+
+    </LinearLayout>
+
+</ScrollView>
+
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<LinearLayout-->
+<!--    android:id="@+id/main"-->
+<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:orientation="vertical"-->
+<!--    android:padding="20dp">-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/imagePreview"-->
+<!--        android:layout_width="120dp"-->
+<!--        android:layout_height="120dp"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        android:src="@android:drawable/ic_menu_camera" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/etProductName"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="Product Name"/>-->
+
+<!--    <Spinner-->
 <!--        android:id="@+id/spinnerUnit"-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="wrap_content"-->
 <!--        android:layout_marginTop="8dp"-->
-<!--        android:entries="@array/warranty_units"/>-->
+<!--        android:entries="@array/warranty_units" />-->
+<!--    <EditText-->
+<!--        android:id="@+id/etWarrantyMonths"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="Warranty"-->
+<!--        android:inputType="number" />-->
 
-    <Button
-        android:id="@+id/btnSave"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Save Warranty" />
+<!--    &lt;!&ndash;    <Spinner&ndash;&gt;-->
+<!--&lt;!&ndash;        android:id="@+id/spinnerUnit"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:layout_marginTop="8dp"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:entries="@array/warranty_units"/>&ndash;&gt;-->
 
-</LinearLayout>
+<!--    <Button-->
+<!--        android:id="@+id/btnSave"-->
+<!--        android:layout_width="374dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Save Warranty" />-->
+
+<!--</LinearLayout>-->

@@ -1,9 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.WarrantyVault" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+    <style name="Theme.WarrantyVault" parent="Theme.Material3.DayNight">
+
+        <!-- Main blue -->
+        <item name="colorPrimary">@color/primaryColor</item>
+
+        <!-- THIS controls the top bar in Material3 -->
+        <item name="colorPrimaryContainer">@color/primaryColor</item>
+
+        <!-- Background -->
+        <item name="android:colorBackground">@color/backgroundColor</item>
+
+        <!-- Status bar -->
+        <item name="android:statusBarColor">@color/primaryColor</item>
+
     </style>
 
-    <style name="Theme.WarrantyVault" parent="Base.Theme.WarrantyVault" />
 </resources>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WarrantyVault</string>
+    <string name="app_name">WarrantyManager</string>
 
     <string-array name="warranty_units">
         <item>Days</item>
