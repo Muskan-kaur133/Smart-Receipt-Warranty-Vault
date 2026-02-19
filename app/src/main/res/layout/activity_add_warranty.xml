@@ -35,13 +35,7 @@
         android:hint="Warranty"
         android:inputType="number" />
 
-    <EditText
-        android:id="@+id/etWarrantyMonths"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Warranty"
-        android:inputType="number"/>
-<!--    <Spinner-->
+    <!--    <Spinner-->
 <!--        android:id="@+id/spinnerUnit"-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="wrap_content"-->

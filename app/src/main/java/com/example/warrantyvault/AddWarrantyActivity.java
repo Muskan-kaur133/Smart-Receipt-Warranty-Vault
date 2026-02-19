@@ -102,7 +102,10 @@ public class AddWarrantyActivity extends AppCompatActivity {
                 calendar.add(Calendar.WEEK_OF_YEAR, value);
             } else if (unit.equals("Months")) {
                 calendar.add(Calendar.MONTH, value);
+            }else if (unit.equals("Years")){
+                calendar.add(Calendar.YEAR,value);
             }
+
 
             long expiryDate = calendar.getTimeInMillis();
 
