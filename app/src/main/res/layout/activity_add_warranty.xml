@@ -48,6 +48,49 @@
             android:inputType="number"
             android:layout_marginTop="12dp"/>
 
+        <!-- Purchase Date -->
+        <EditText
+            android:id="@+id/etPurchaseDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Purchase Date"
+            android:focusable="false"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Seller Name -->
+        <EditText
+            android:id="@+id/etSeller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Store / Seller Name"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Price -->
+        <EditText
+            android:id="@+id/etPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Price"
+            android:inputType="numberDecimal"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Serial Number -->
+        <EditText
+            android:id="@+id/etSerialNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Serial Number"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Notes -->
+        <EditText
+            android:id="@+id/etNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Notes"
+            android:layout_marginTop="8dp"
+            android:minLines="2"/>
+
         <!-- Save Button -->
         <Button
             android:id="@+id/btnSave"

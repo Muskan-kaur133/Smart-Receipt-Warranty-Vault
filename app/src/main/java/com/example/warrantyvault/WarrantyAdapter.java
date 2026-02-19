@@ -67,6 +67,11 @@ public class WarrantyAdapter extends RecyclerView.Adapter<WarrantyAdapter.ViewHo
             Bitmap bitmap = BitmapFactory.decodeFile(item.getImagePath());
             holder.itemImage.setImageBitmap(bitmap);
         }
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(item);
+            }
+        });
 
         // Long press delete
         holder.itemView.setOnLongClickListener(v -> {
@@ -84,6 +89,7 @@ public class WarrantyAdapter extends RecyclerView.Adapter<WarrantyAdapter.ViewHo
 
     public interface OnItemDeleteListener {
         void onDeleteClick(WarrantyItem item);
+        void onItemClick(WarrantyItem item);
     }
 
     private OnItemDeleteListener listener;

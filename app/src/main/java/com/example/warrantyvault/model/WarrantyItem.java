@@ -10,33 +10,43 @@ public class WarrantyItem {
     public int id;
 
     public String productName;
-
     public long purchaseDate;
-
     public int warrantyMonths;
-
     public long expiryDate;
-
-    public String imageUri;
-
+    public String imagePath;
+    public String sellerName;
+    public String price;
+    public String serialNumber;
     public String notes;
-    private String imagePath;
 
+    // Constructor used by Room
     public WarrantyItem(String productName,
-                        long purchaseDate,
-                        int warrantyMonths,
                         long expiryDate,
+                        long purchaseDate,
+                        String sellerName,
+                        String price,
+                        String serialNumber,
+                        String notes,
                         String imagePath) {
 
         this.productName = productName;
-        this.purchaseDate = purchaseDate;
-        this.warrantyMonths = warrantyMonths;
         this.expiryDate = expiryDate;
+        this.purchaseDate = purchaseDate;
+        this.sellerName = sellerName;
+        this.price = price;
+        this.serialNumber = serialNumber;
+        this.notes = notes;
         this.imagePath = imagePath;
-
     }
+
+    // Getters
+
     public String getProductName() {
         return productName;
+    }
+
+    public long getPurchaseDate() {
+        return purchaseDate;
     }
 
     public int getWarrantyMonths() {
@@ -46,10 +56,30 @@ public class WarrantyItem {
     public long getExpiryDate() {
         return expiryDate;
     }
+
     public String getImagePath() {
         return imagePath;
     }
+
+    public String getSellerName() {
+        return sellerName;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
 }
+
+
+
 
 
 // package com.example.warrantyvault.model;

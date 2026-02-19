@@ -11,13 +11,79 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
+import android.app.Dialog;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import android.widget.Toast;
+
+import com.example.warrantyvault.model.WarrantyItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
     private WarrantyViewModel viewModel;
+    private void showWarrantyPopup(WarrantyItem item) {
+
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_warranty_details);
+
+        dialog.getWindow().setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                (int)(getResources().getDisplayMetrics().heightPixels * 0.9)
+        );
+
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        ImageView image = dialog.findViewById(R.id.dialogImage);
+        TextView name = dialog.findViewById(R.id.dialogName);
+        TextView expiry = dialog.findViewById(R.id.dialogExpiry);
+        TextView seller = dialog.findViewById(R.id.dialogSeller);
+        TextView price = dialog.findViewById(R.id.dialogPrice);
+        TextView serial = dialog.findViewById(R.id.dialogSerial);
+        TextView notes = dialog.findViewById(R.id.dialogNotes);
+        TextView status = dialog.findViewById(R.id.dialogStatus);
+
+        name.setText(item.getProductName());
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+        expiry.setText("Expires: " + sdf.format(new Date(item.getExpiryDate())));
+
+        seller.setText("Seller: " + item.getSellerName());
+        price.setText("Price: " + item.getPrice());
+        serial.setText("Serial: " + item.getSerialNumber());
+        notes.setText("Notes: " + item.getNotes());
+
+        if (item.getExpiryDate() > System.currentTimeMillis()) {
+            status.setText("Active");
+            status.setTextColor(Color.parseColor("#2E7D32"));
+        } else {
+            status.setText("Expired");
+            status.setTextColor(Color.parseColor("#C62828"));
+        }
+
+        if (item.getImagePath() != null) {
+            Bitmap bitmap = BitmapFactory.decodeFile(item.getImagePath());
+            image.setImageBitmap(bitmap);
+        }
+
+        dialog.show();
+        dialog.show();
+
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setLayout(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +96,19 @@ public class MainActivity extends AppCompatActivity {
 
         WarrantyAdapter adapter = new WarrantyAdapter();
         recyclerView.setAdapter(adapter);
-        adapter.setOnItemDeleteListener(item -> {
-            viewModel.delete(item);
-            Toast.makeText(this, "Deleted", Toast.LENGTH_SHORT).show();
+        adapter.setOnItemDeleteListener(new WarrantyAdapter.OnItemDeleteListener() {
+
+            @Override
+            public void onDeleteClick(WarrantyItem item) {
+                // existing delete
+            }
+
+            @Override
+            public void onItemClick(WarrantyItem item) {
+                showWarrantyPopup(item);
+            }
         });
+
 
         viewModel = new ViewModelProvider(this).get(WarrantyViewModel.class);
 
@@ -52,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
     }}
 
 //package com.example.warrantyvault;

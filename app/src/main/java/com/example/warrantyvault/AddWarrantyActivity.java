@@ -1,6 +1,7 @@
 package com.example.warrantyvault;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -11,7 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
+import java.util.Locale;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.IOException;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import com.example.warrantyvault.model.WarrantyItem;
@@ -32,10 +34,14 @@ public class AddWarrantyActivity extends AppCompatActivity {
     private WarrantyViewModel viewModel;
     private static final int CAMERA_REQUEST = 101;
     private static final int CAMERA_PERMISSION_CODE = 102;
+    private EditText etSeller, etPrice, etSerialNumber, etNotes;
 
     private ImageView imagePreview;
     private Bitmap capturedBitmap;
     private String imagePath = "";
+    private EditText etPurchaseDate;
+    private long selectedPurchaseDate = System.currentTimeMillis();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +53,29 @@ public class AddWarrantyActivity extends AppCompatActivity {
         EditText etProductName = findViewById(R.id.etProductName);
         EditText etWarrantyValue = findViewById(R.id.etWarrantyMonths);
         Spinner spinner = findViewById(R.id.spinnerUnit);
+        etPurchaseDate = findViewById(R.id.etPurchaseDate);
+        etSeller = findViewById(R.id.etSeller);
+        etPrice = findViewById(R.id.etPrice);
+        etSerialNumber = findViewById(R.id.etSerialNumber);
+        etNotes = findViewById(R.id.etNotes);
+
+        etPurchaseDate.setOnClickListener(v -> {
+            Calendar calendar = Calendar.getInstance();
+
+            DatePickerDialog dialog = new DatePickerDialog(this,
+                    (view, year, month, dayOfMonth) -> {
+                        calendar.set(year, month, dayOfMonth);
+                        selectedPurchaseDate = calendar.getTimeInMillis();
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+                        etPurchaseDate.setText(sdf.format(calendar.getTime()));
+                    },
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)
+            );
+
+            dialog.show();
+        });
         Button btnSave = findViewById(R.id.btnSave);
 
         viewModel = new ViewModelProvider(this).get(WarrantyViewModel.class);
@@ -71,6 +100,10 @@ public class AddWarrantyActivity extends AppCompatActivity {
 
             String productName = etProductName.getText().toString().trim();
             String valueText = etWarrantyValue.getText().toString().trim();
+            String seller = etSeller.getText().toString().trim();
+            String price = etPrice.getText().toString().trim();
+            String serial = etSerialNumber.getText().toString().trim();
+            String notes = etNotes.getText().toString().trim();
 
             if (productName.isEmpty() || valueText.isEmpty()) {
                 Toast.makeText(this,
@@ -111,9 +144,14 @@ public class AddWarrantyActivity extends AppCompatActivity {
 
             WarrantyItem item = new WarrantyItem(
                     productName,
-                    purchaseDate,
-                    value,
-                    expiryDate,imagePath );
+                    expiryDate,
+                    selectedPurchaseDate,
+                    seller,
+                    price,
+                    serial,
+                    notes,
+                    imagePath
+            );
 
             viewModel.insert(item);
 

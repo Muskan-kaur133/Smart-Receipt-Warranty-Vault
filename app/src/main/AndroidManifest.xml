@@ -17,6 +17,7 @@
         android:theme="@style/Theme.WarrantyVault">
         <activity
             android:name=".AddWarrantyActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"
