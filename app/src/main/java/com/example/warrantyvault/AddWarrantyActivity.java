@@ -58,6 +58,10 @@ public class AddWarrantyActivity extends AppCompatActivity {
         etPrice = findViewById(R.id.etPrice);
         etSerialNumber = findViewById(R.id.etSerialNumber);
         etNotes = findViewById(R.id.etNotes);
+        etNotes.setOnEditorActionListener((v, actionId, event) -> {
+            etNotes.clearFocus();
+            return false;
+        });
 
         etPurchaseDate.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
