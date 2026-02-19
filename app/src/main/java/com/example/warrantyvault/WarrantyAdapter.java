@@ -1,5 +1,6 @@
 package com.example.warrantyvault;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Date;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.widget.ImageView;
@@ -49,21 +48,27 @@ public class WarrantyAdapter extends RecyclerView.Adapter<WarrantyAdapter.ViewHo
         // Format expiry date
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault());
         String expiryFormatted = sdf.format(new Date(item.getExpiryDate()));
-
         holder.tvExpiry.setText("Expires: " + expiryFormatted);
 
         // Status logic
         if (item.getExpiryDate() > System.currentTimeMillis()) {
-            holder.tvStatus.setText("Active");
-            holder.tvStatus.setTextColor(android.graphics.Color.GREEN);
+
+            holder.tvStatus.setText("● Active");
+            holder.tvStatus.setTextColor(Color.parseColor("#2E7D32")); // green
+
         } else {
+
             holder.tvStatus.setText("Expired");
-            holder.tvStatus.setTextColor(android.graphics.Color.RED);
+            holder.tvStatus.setTextColor(Color.parseColor("#C62828")); // red
         }
+
+        // Image loading
         if (item.getImagePath() != null && !item.getImagePath().isEmpty()) {
             Bitmap bitmap = BitmapFactory.decodeFile(item.getImagePath());
             holder.itemImage.setImageBitmap(bitmap);
         }
+
+        // Long press delete
         holder.itemView.setOnLongClickListener(v -> {
             if (listener != null) {
                 listener.onDeleteClick(item);
