@@ -1,5 +1,7 @@
 package com.example.warrantyvault;
-
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+import java.util.concurrent.TimeUnit;
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.Menu;
@@ -29,6 +31,11 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import com.example.warrantyvault.model.WarrantyItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.ExistingPeriodicWorkPolicy;
+
+import java.util.concurrent.TimeUnit;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -41,6 +48,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+        PeriodicWorkRequest workRequest =
+                new PeriodicWorkRequest.Builder(
+                        ExpiryNotificationWorker.class,
+                        15, TimeUnit.MINUTES)   // minimum allowed interval
+                        .build();
+
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+                "expiry_check_work",
+                ExistingPeriodicWorkPolicy.KEEP,
+                workRequest
+        );
+        NotificationHelper.createNotificationChannel(this);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
+                    != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+
+                requestPermissions(
+                        new String[]{android.Manifest.permission.POST_NOTIFICATIONS},
+                        1001
+                );
+            }
+        }
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

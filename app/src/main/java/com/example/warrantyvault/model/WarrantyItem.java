@@ -76,6 +76,14 @@ public class WarrantyItem {
     public String getNotes() {
         return notes;
     }
+    private boolean notificationSent;
+    public boolean isNotificationSent() {
+        return notificationSent;
+    }
+
+    public void setNotificationSent(boolean notificationSent) {
+        this.notificationSent = notificationSent;
+    }
 }
 
 

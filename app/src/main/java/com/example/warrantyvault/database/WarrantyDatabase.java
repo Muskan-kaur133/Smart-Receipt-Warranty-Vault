@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase;
 
 import com.example.warrantyvault.model.WarrantyItem;
 
-@Database(entities = {WarrantyItem.class}, version = 3)
+@Database(entities = {WarrantyItem.class}, version = 4)
 public abstract class WarrantyDatabase extends RoomDatabase {
 
     private static WarrantyDatabase instance;

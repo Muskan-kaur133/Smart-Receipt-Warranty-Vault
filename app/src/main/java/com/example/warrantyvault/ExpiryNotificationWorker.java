@@ -25,26 +25,38 @@ public class ExpiryNotificationWorker extends Worker {
     @Override
     public Result doWork() {
 
-        Log.d("ExpiryCheck", "Worker is running!"); // This helps to check if worker runs
+        Log.d("ExpiryCheck", "Worker is running!");
 
-        // Get database instance
-        WarrantyDatabase db = WarrantyDatabase.getInstance(getApplicationContext());
-        List<WarrantyItem> items = db.warrantyDao().getAllItemsSync(); // Make sure you have a synchronous DAO method
+        WarrantyDatabase db =
+                WarrantyDatabase.getInstance(getApplicationContext());
+
+        List<WarrantyItem> items =
+                db.warrantyDao().getAllItemsSync();
 
         long now = System.currentTimeMillis();
 
         for (WarrantyItem item : items) {
 
-            long oneDayBefore = item.getExpiryDate() - (24*60 * 60 * 1000); // 1 day in millis
+            long oneDayBefore =
+                    item.getExpiryDate() - (24 * 60 * 60 * 1000);
 
-            if (now >= oneDayBefore && now < item.getExpiryDate()) {
-                // Send notification
-                String title = "Warranty Expiry Reminder";
-                String message = "Your warranty for " + item.getProductName() + " expires tomorrow!";
-                NotificationHelper.sendNotification(getApplicationContext(), title, message);
+            if (now >= oneDayBefore
+                    && now < item.getExpiryDate()
+                    && !item.isNotificationSent()) {
+
+                NotificationHelper.sendNotification(
+                        getApplicationContext(),
+                        "Warranty Expiry Reminder",
+                        "Your warranty for "
+                                + item.getProductName()
+                                + " expires tomorrow!"
+                );
+
+                item.setNotificationSent(true);
+                db.warrantyDao().update(item);
             }
         }
 
         return Result.success();
     }
-}
+    }

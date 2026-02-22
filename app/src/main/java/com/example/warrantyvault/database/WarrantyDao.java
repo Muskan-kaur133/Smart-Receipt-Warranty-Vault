@@ -56,6 +56,7 @@ public interface WarrantyDao {
 
     @Query("SELECT * FROM warranty_items")
     List<WarrantyItem> getAllItemsSync();
+
 }
 
 
