@@ -9,4 +9,24 @@
         app:showAsAction="always|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView" />
 
+    <item
+        android:id="@+id/action_sort_expiry_asc"
+        android:title="Expiry (Nearest First)"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_sort_expiry_desc"
+        android:title="Expiry (Latest First)"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_sort_name_asc"
+        android:title="Name (A-Z)"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_sort_name_desc"
+        android:title="Name (Z-A)"
+        app:showAsAction="never" />
+
 </menu>

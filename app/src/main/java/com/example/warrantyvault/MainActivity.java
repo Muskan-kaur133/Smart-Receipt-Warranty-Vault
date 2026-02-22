@@ -1,5 +1,5 @@
 package com.example.warrantyvault;
-
+import androidx.annotation.NonNull;
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.Menu;
@@ -103,6 +103,39 @@ public class MainActivity extends AppCompatActivity {
         });
 
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_sort_expiry_asc) {
+            viewModel.sortByExpiryAsc().observe(this, items -> {
+                adapter.setWarrantyList(items);
+            });
+            return true;
+
+        } else if (id == R.id.action_sort_expiry_desc) {
+            viewModel.sortByExpiryDesc().observe(this, items -> {
+                adapter.setWarrantyList(items);
+            });
+            return true;
+
+        } else if (id == R.id.action_sort_name_asc) {
+            viewModel.sortByNameAsc().observe(this, items -> {
+                adapter.setWarrantyList(items);
+            });
+            return true;
+
+        } else if (id == R.id.action_sort_name_desc) {
+            viewModel.sortByNameDesc().observe(this, items -> {
+                adapter.setWarrantyList(items);
+            });
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void showWarrantyPopup(WarrantyItem item) {
