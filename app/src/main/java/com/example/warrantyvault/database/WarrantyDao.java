@@ -53,6 +53,9 @@ public interface WarrantyDao {
 
     @Query("SELECT * FROM warranty_items ORDER BY productName DESC")
     LiveData<List<WarrantyItem>> sortByNameDesc();
+
+    @Query("SELECT * FROM warranty_items")
+    List<WarrantyItem> getAllItemsSync();
 }
 
 

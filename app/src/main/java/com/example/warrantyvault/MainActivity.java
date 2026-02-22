@@ -1,5 +1,5 @@
 package com.example.warrantyvault;
-import androidx.annotation.NonNull;
+
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.Menu;
@@ -104,34 +104,27 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
     }
-
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
 
-        int id = item.getItemId();
-
-        if (id == R.id.action_sort_expiry_asc) {
-            viewModel.sortByExpiryAsc().observe(this, items -> {
-                adapter.setWarrantyList(items);
-            });
+        if (item.getItemId() == R.id.action_sort_expiry_asc) {
+            viewModel.sortByExpiryAsc().observe(this, items ->
+                    adapter.setWarrantyList(items));
             return true;
 
-        } else if (id == R.id.action_sort_expiry_desc) {
-            viewModel.sortByExpiryDesc().observe(this, items -> {
-                adapter.setWarrantyList(items);
-            });
+        } else if (item.getItemId() == R.id.action_sort_expiry_desc) {
+            viewModel.sortByExpiryDesc().observe(this, items ->
+                    adapter.setWarrantyList(items));
             return true;
 
-        } else if (id == R.id.action_sort_name_asc) {
-            viewModel.sortByNameAsc().observe(this, items -> {
-                adapter.setWarrantyList(items);
-            });
+        } else if (item.getItemId() == R.id.action_sort_name_asc) {
+            viewModel.sortByNameAsc().observe(this, items ->
+                    adapter.setWarrantyList(items));
             return true;
 
-        } else if (id == R.id.action_sort_name_desc) {
-            viewModel.sortByNameDesc().observe(this, items -> {
-                adapter.setWarrantyList(items);
-            });
+        } else if (item.getItemId() == R.id.action_sort_name_desc) {
+            viewModel.sortByNameDesc().observe(this, items ->
+                    adapter.setWarrantyList(items));
             return true;
         }
 
@@ -160,8 +153,7 @@ public class MainActivity extends AppCompatActivity {
 
         name.setText(item.getProductName());
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
-        expiry.setText("Expires: " + sdf.format(new Date(item.getExpiryDate())));
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault());        expiry.setText("Expires: " + sdf.format(new Date(item.getExpiryDate())));
 
         seller.setText("Seller: " + item.getSellerName());
         price.setText("Price: " + item.getPrice());

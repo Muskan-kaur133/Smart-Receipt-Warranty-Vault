@@ -85,7 +85,7 @@ public class WarrantyAdapter extends RecyclerView.Adapter<WarrantyAdapter.ViewHo
 
         holder.tvProductName.setText(item.getProductName());
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault());
         holder.tvExpiry.setText("Expires: " + sdf.format(new Date(item.getExpiryDate())));
 
         if (item.getExpiryDate() > System.currentTimeMillis()) {

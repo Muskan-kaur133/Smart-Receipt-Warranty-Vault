@@ -22,8 +22,8 @@
             android:layout_width="95dp"
             android:layout_height="95dp"
             android:layout_marginEnd="14dp"
-            android:scaleType="centerCrop"
-            android:background="@drawable/rounded_image_bg"/>
+            android:background="@drawable/rounded_image_bg"
+            android:scaleType="centerCrop" />
 
         <!-- Text Section -->
         <LinearLayout
@@ -36,26 +36,26 @@
                 android:id="@+id/tvProductName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#000"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#000"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvExpiry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:layout_marginTop="6dp"
                 android:textColor="#555"
-                android:layout_marginTop="6dp"/>
+                android:textSize="14sp" />
 
             <!-- Status with color highlight -->
             <TextView
                 android:id="@+id/tvStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
                 android:textSize="14sp"
-                android:textStyle="bold"
-                android:layout_marginTop="6dp"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
 
