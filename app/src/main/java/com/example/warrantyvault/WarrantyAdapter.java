@@ -5,7 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import androidx.appcompat.app.AlertDialog;
+import android.widget.Toast;
 import android.widget.Filterable;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,12 +28,15 @@ public class WarrantyAdapter extends RecyclerView.Adapter<WarrantyAdapter.ViewHo
 
     private List<WarrantyItem> warrantyList = new ArrayList<>();
     private List<WarrantyItem> warrantyListFull = new ArrayList<>();
+    private OnItemDeleteListener listener;
 
     public void setWarrantyList(List<WarrantyItem> list) {
         this.warrantyList = new ArrayList<>(list);
         this.warrantyListFull = new ArrayList<>(list);
         notifyDataSetChanged();
     }
+
+    // ================= FILTER =================
 
     @Override
     public Filter getFilter() {
@@ -42,7 +46,6 @@ public class WarrantyAdapter extends RecyclerView.Adapter<WarrantyAdapter.ViewHo
     private final Filter warrantyFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-
             List<WarrantyItem> filteredList = new ArrayList<>();
 
             if (constraint == null || constraint.length() == 0) {
@@ -65,10 +68,12 @@ public class WarrantyAdapter extends RecyclerView.Adapter<WarrantyAdapter.ViewHo
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             warrantyList.clear();
-            warrantyList.addAll((List<WarrantyItem>) results.values);
+            warrantyList.addAll((List) results.values);
             notifyDataSetChanged();
         }
     };
+
+    // ================= VIEW HOLDER =================
 
     @NonNull
     @Override
@@ -101,13 +106,25 @@ public class WarrantyAdapter extends RecyclerView.Adapter<WarrantyAdapter.ViewHo
             holder.itemImage.setImageBitmap(bitmap);
         }
 
+        // Item Click
         holder.itemView.setOnClickListener(v -> {
-            if (listener != null) listener.onItemClick(item);
+            if (listener != null) {
+                listener.onItemClick(item);
+            }
         });
 
-        holder.itemView.setOnLongClickListener(v -> {
-            if (listener != null) listener.onDeleteClick(item);
-            return true;
+        // Delete Click with Confirmation
+        holder.btnDelete.setOnClickListener(v -> {
+            new AlertDialog.Builder(holder.itemView.getContext())
+                    .setTitle("Delete Item")
+                    .setMessage("Are you sure you want to delete this warranty?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        if (listener != null) {
+                            listener.onDeleteClick(item);
+                        }
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
         });
     }
 
@@ -116,28 +133,32 @@ public class WarrantyAdapter extends RecyclerView.Adapter<WarrantyAdapter.ViewHo
         return warrantyList.size();
     }
 
+    // ================= LISTENER =================
+
     public interface OnItemDeleteListener {
         void onDeleteClick(WarrantyItem item);
         void onItemClick(WarrantyItem item);
     }
 
-    private OnItemDeleteListener listener;
-
     public void setOnItemDeleteListener(OnItemDeleteListener listener) {
         this.listener = listener;
     }
 
+    // ================= VIEW HOLDER CLASS =================
+
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvProductName, tvExpiry, tvStatus;
-        ImageView itemImage;
+        ImageView itemImage, btnDelete;
 
         ViewHolder(View itemView) {
             super(itemView);
+
             tvProductName = itemView.findViewById(R.id.tvProductName);
             tvExpiry = itemView.findViewById(R.id.tvExpiry);
             tvStatus = itemView.findViewById(R.id.tvStatus);
             itemImage = itemView.findViewById(R.id.itemImage);
+            btnDelete = itemView.findViewById(R.id.btnDelete);  // IMPORTANT
         }
     }
 }
