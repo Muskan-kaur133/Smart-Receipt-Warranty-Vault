@@ -2,10 +2,9 @@ package com.example.warrantyvault.model;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
+import java.io.Serializable;
 @Entity(tableName = "warranty_items")
-public class WarrantyItem {
-
+public class WarrantyItem implements Serializable {
     @PrimaryKey(autoGenerate = true)
     public int id;
 
@@ -83,6 +82,39 @@ public class WarrantyItem {
 
     public void setNotificationSent(boolean notificationSent) {
         this.notificationSent = notificationSent;
+    }
+    // Setters
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public void setExpiryDate(long expiryDate) {
+        this.expiryDate = expiryDate;
+    }
+
+    public void setPurchaseDate(long purchaseDate) {
+        this.purchaseDate = purchaseDate;
+    }
+
+    public void setSellerName(String sellerName) {
+        this.sellerName = sellerName;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }
 
