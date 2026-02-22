@@ -41,6 +41,10 @@ public interface WarrantyDao {
     // Get expiring within X days (NOW LiveData)
     @Query("SELECT * FROM warranty_items WHERE expiryDate BETWEEN :currentDate AND :futureDate")
     LiveData<List<WarrantyItem>> getExpiringSoon(long currentDate, long futureDate);
+
+    @Query("SELECT * FROM warranty_items")
+    List<WarrantyItem> getAllItemsSync();
+
 }
 
 

@@ -4,32 +4,35 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import android.app.Dialog;
-import android.view.Menu;
 import android.view.ViewGroup;
+import android.app.Dialog;
 import android.widget.ImageView;
-import androidx.appcompat.widget.SearchView;
 import android.widget.TextView;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.work.Constraints;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.warrantyvault.model.WarrantyItem;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import android.widget.Toast;
-import android.widget.Filter;
-import android.widget.Filterable;
-import com.example.warrantyvault.model.WarrantyItem;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+        // Notification channel
+        NotificationHelper.createNotificationChannel(this);
+
+        // RecyclerView setup
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -61,24 +68,42 @@ public class MainActivity extends AppCompatActivity {
         });
 
         viewModel = new ViewModelProvider(this).get(WarrantyViewModel.class);
-        viewModel.getAllItems().observe(this, items -> {
-            adapter.setWarrantyList(items);
-        });
+        viewModel.getAllItems().observe(this, items -> adapter.setWarrantyList(items));
 
+        // Floating action button
         FloatingActionButton fab = findViewById(R.id.fabAdd);
         fab.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AddWarrantyActivity.class);
             startActivity(intent);
         });
 
+        // Edge-to-edge padding
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // Schedule WorkManager to check expiry daily
+        Constraints constraints = new Constraints.Builder()
+                .setRequiresBatteryNotLow(true)
+                .build();
+
+        PeriodicWorkRequest request = new PeriodicWorkRequest.Builder(
+                ExpiryNotificationWorker.class,
+                24, TimeUnit.HOURS
+        )
+                .setConstraints(constraints)
+                .build();
+
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+                "daily_expiry_check",
+                ExistingPeriodicWorkPolicy.KEEP,
+                request
+        );
     }
 
-    // ✅ SEARCH BAR CODE GOES HERE
+    // Search bar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -105,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    // Show warranty popup
     private void showWarrantyPopup(WarrantyItem item) {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_warranty_details);
@@ -126,10 +152,8 @@ public class MainActivity extends AppCompatActivity {
         TextView status = dialog.findViewById(R.id.dialogStatus);
 
         name.setText(item.getProductName());
-
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
         expiry.setText("Expires: " + sdf.format(new Date(item.getExpiryDate())));
-
         seller.setText("Seller: " + item.getSellerName());
         price.setText("Price: " + item.getPrice());
         serial.setText("Serial: " + item.getSerialNumber());
@@ -151,52 +175,3 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 }
-
-//package com.example.warrantyvault;
-//
-//import android.os.Bundle;
-//
-//import androidx.activity.EdgeToEdge;
-//import androidx.appcompat.app.AppCompatActivity;
-//import androidx.core.graphics.Insets;
-//import androidx.core.view.ViewCompat;
-//import androidx.core.view.WindowInsetsCompat;
-//
-//import com.example.warrantyvault.database.WarrantyDao;
-//import com.example.warrantyvault.database.WarrantyDatabase;
-//import com.example.warrantyvault.model.WarrantyItem;
-//
-//public class MainActivity extends AppCompatActivity {
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//
-//        EdgeToEdge.enable(this);
-//        setContentView(R.layout.activity_main);
-//
-//        // DATABASE TEST
-//        WarrantyDatabase db = WarrantyDatabase.getInstance(this);
-//        WarrantyDao dao = db.warrantyDao();
-//
-//        long purchaseDate = System.currentTimeMillis();
-//        long expiryDate = purchaseDate + (12L * 30 * 24 * 60 * 60 * 1000);
-//
-//        WarrantyItem item = new WarrantyItem(
-//                "Earphones",
-//                purchaseDate,
-//                12,
-//                expiryDate,
-//                "",
-//                ""
-//        );
-//
-//        dao.insert(item);
-//
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-//            return insets;
-//        });
-//    }
-//}
