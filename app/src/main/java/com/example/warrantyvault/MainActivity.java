@@ -12,7 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;          // ✅ IMPORTANT
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import androidx.lifecycle.LiveData;
+import java.util.List;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -61,6 +62,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
+    private void observeData(LiveData<List<WarrantyItem>> liveData) {
+        liveData.observe(this, items -> adapter.setWarrantyList(items));
+    }
+
 
     // ================= SEARCH =================
     @Override
@@ -89,6 +94,31 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == R.id.action_sort_expiry_asc) {
+            observeData(viewModel.sortByExpiryAsc());
+            return true;
+        }
+
+        if (item.getItemId() == R.id.action_sort_expiry_desc) {
+            observeData(viewModel.sortByExpiryDesc());
+            return true;
+        }
+
+        if (item.getItemId() == R.id.action_sort_name_asc) {
+            observeData(viewModel.sortByNameAsc());
+            return true;
+        }
+
+        if (item.getItemId() == R.id.action_sort_name_desc) {
+            observeData(viewModel.sortByNameDesc());
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     // ================= POPUP =================
