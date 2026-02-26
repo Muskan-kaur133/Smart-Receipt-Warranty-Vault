@@ -46,9 +46,9 @@ public class AddWarrantyActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_add_warranty);
-
+        getWindow().setSoftInputMode(
+                android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         imagePreview = findViewById(R.id.imagePreview);
         EditText etProductName = findViewById(R.id.etProductName);
         EditText etWarrantyValue = findViewById(R.id.etWarrantyMonths);
