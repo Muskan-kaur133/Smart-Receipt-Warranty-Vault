@@ -126,7 +126,7 @@ public class AddWarrantyActivity extends AppCompatActivity {
                 return;
             }
 
-            long purchaseDate = System.currentTimeMillis();
+            long purchaseDate = selectedPurchaseDate;
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(purchaseDate);
